@@ -35,6 +35,7 @@ jobs:
             sudo apt-get install unzip
             sudo apt-get install zip gzip tar
             sudo apt-get install python3.6-dev libmysqlclient-dev
+            sudo apt-get install python3-setuptools
             
         
        - name: Payload
