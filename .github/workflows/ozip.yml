@@ -1,0 +1,50 @@
+name: oOf dynamic again
+
+on:
+#  release:
+#    types: [published]
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - '.config'
+#  schedule:
+#    - cron: 0 8 * * 5
+  watch:
+    types: [started]
+    
+env:
+  PAYLOAD_URL: http://downloads.oppo.com.s3.amazonaws.com/firmware/CPH1917_Q/CPH1917EX_11_OTA_2280_all_uMEvuaVFvSQe.ozip
+  ROM_NAME: opporeno
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+       - name: Checkout
+         uses: actions/checkout@master
+
+       - name: Initializing environments
+         run: |
+            sudo -E apt-get -qq update
+            sudo -E apt-get -qq install git openjdk-8-jdk wget
+            sudo apt-get install wget
+            sudo apt-get install p7zip-full
+            sudo apt-get update -y
+            sudo apt-get install -y simg2img  
+            sudo apt-get install unzip
+            sudo apt-get install zip gzip tar
+        
+       - name: Payload
+         run: |
+              sudo aria2c http://tdrive.manofuranium.workers.dev/ozipdecrypt.py
+              sudo pip3 install pycryptodome
+              sudo pip3 install docopt
+              sudo aria2c $ROM_URL
+              sudo mv *.ozip rom.ozip
+              sudo python ozipdecrypt.py rom.ozip
+              
+       - name: Uploading the zip
+         run: |
+              curl -sL https://git.io/file-transfer | sh
+              ./transfer bit rom.zip
