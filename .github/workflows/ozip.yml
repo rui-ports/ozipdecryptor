@@ -44,7 +44,7 @@ jobs:
               sudo pip install --upgrade setuptools
               sudo pip3 install pycryptodome
               sudo pip3 install docopt
-              sudo aria2c $ROM_URL
+              sudo aria2c $PAYLOAD_URL
               sudo mv *.ozip rom.ozip
               sudo python ozipdecrypt.py rom.ozip
               
