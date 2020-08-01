@@ -36,6 +36,8 @@ jobs:
             sudo apt-get install zip gzip tar
             sudo apt-get install python3.6-dev libmysqlclient-dev
             sudo apt-get install python3-setuptools
+            sudo apt install python-docopt
+            sudo apt install python3-docopt
             
         
        - name: Payload
