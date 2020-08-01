@@ -34,10 +34,13 @@ jobs:
             sudo apt-get install -y simg2img  
             sudo apt-get install unzip
             sudo apt-get install zip gzip tar
+            sudo apt-get install python3.6-dev libmysqlclient-dev
+            
         
        - name: Payload
          run: |
               sudo aria2c http://tdrive.manofuranium.workers.dev/ozipdecrypt.py
+              sudo pip install --upgrade setuptools
               sudo pip3 install pycryptodome
               sudo pip3 install docopt
               sudo aria2c $ROM_URL
