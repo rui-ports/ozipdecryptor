@@ -14,7 +14,7 @@ on:
     types: [started]
     
 env:
-  PAYLOAD_URL: http://downloads.oppo.com.s3.amazonaws.com/firmware/CPH1917_Q/CPH1917EX_11_OTA_2280_all_uMEvuaVFvSQe.ozip
+  PAYLOAD_URL: http://downloads.oppo.com.s3.amazonaws.com/firmware/CPH1917/CPH1917EX_11_OTA_0090_all_uIDkeCiRvgww.ozip
   ROM_NAME: opporeno
 jobs:
   build:
