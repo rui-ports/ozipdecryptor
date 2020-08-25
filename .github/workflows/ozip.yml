@@ -1,4 +1,4 @@
-name: oOf dynamic again
+name: ozipdecryptor
 
 on:
 #  release:
@@ -15,7 +15,7 @@ on:
     
 env:
   PAYLOAD_URL: http://downloads.oppo.com.s3.amazonaws.com/firmware/CPH1917/CPH1917EX_11_OTA_0090_all_uIDkeCiRvgww.ozip
-  ROM_NAME: opporeno
+  ZIP_NAME: OPPO-RENO
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,31 +26,43 @@ jobs:
 
        - name: Initializing environments
          run: |
-            sudo -E apt-get -qq update
-            sudo -E apt-get -qq install git openjdk-8-jdk wget
-            sudo apt-get install wget
-            sudo apt-get install p7zip-full
-            sudo apt-get update -y
-            sudo apt-get install -y simg2img  
-            sudo apt-get install unzip
-            sudo apt-get install zip gzip tar
-            sudo apt-get install python3.6-dev libmysqlclient-dev
-            sudo apt-get install python3-setuptools
-            sudo apt install python-docopt
-            sudo apt install python3-docopt
-            
-        
-       - name: Payload
+              sudo -E apt-get -qq update
+              sudo -E apt-get -qq install git openjdk-8-jdk wget
+              sudo apt-get install wget
+              sudo apt-get install p7zip-full
+              sudo apt-get update -y
+              sudo apt-get install -y simg2img  
+              sudo apt-get install unzip
+              sudo apt-get install zip gzip tar
+              sudo apt-get install python3.6-dev libmysqlclient-dev
+              sudo apt-get install python3-setuptools
+              sudo apt install python-docopt
+              sudo apt install python3-docopt
+                 
+       - name: Decrypting ozip
          run: |
               sudo aria2c http://tdrive.manofuranium.workers.dev/ozipdecrypt.py
               sudo pip install --upgrade setuptools
               sudo pip3 install pycryptodome
               sudo pip3 install docopt
               sudo aria2c $PAYLOAD_URL
-              sudo mv *.ozip rom.ozip
-              sudo python ozipdecrypt.py rom.ozip
+              sudo mv *.ozip $ZIP_NAME.ozip
+              sudo python ozipdecrypt.py $ZIP_NAME.ozip
               
        - name: Uploading the zip
          run: |
-              curl -sL https://git.io/file-transfer | sh
-              ./transfer bit rom.zip
+              expect -c "
+              spawn sftp ruiii@frs.sourceforge.net
+              expect \"yes/no\"
+              send \"yes\r\"
+              expect \"Password\"
+              send \"${{ secrets.PASSWORD }}\r\"
+              expect \"sftp> \"
+              send \"cd /home/pfs/project/rui-ports/dumps\r\"
+              set timeout -1
+              send \"put $ZIP_NAME.zip\r\"
+              expect \"Uploading\"
+              expect \"100%\"
+              expect \"sftp>\"
+              send \"bye\r\"
+              interact"
