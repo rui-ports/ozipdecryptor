@@ -14,8 +14,8 @@ on:
     types: [started]
     
 env:
-  PAYLOAD_URL: http://downloads.oppo.com.s3.amazonaws.com/firmware/CPH1917/CPH1917EX_11_OTA_0090_all_uIDkeCiRvgww.ozip
-  ZIP_NAME: OPPO-RENO
+  PAYLOAD_URL: https://download.c.realme.com/osupdate/RMX2151EU_11_OTA_0880_all_z2qJYj6eZGF0.ozip
+  ZIP_NAME: Realme 7
 jobs:
   build:
     runs-on: ubuntu-latest
